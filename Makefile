@@ -21,6 +21,14 @@ CONTAINER_TAG?=$(OPENSHIFT_RELEASE)
 BOOTSTRAP?=false
 MODE?=apply
 
+ifeq ($(DEPLOYMENT_TYPE),ocp)
+  COREOS_IMAGE=rhcos
+else ifeq ($(DEPLOYMENT_TYPE),okd)
+  COREOS_IMAGE=fcos
+else
+  $(error installer only supports ocp or okd)
+endif
+
 # openshift version
 .PHONY: latest_version
 latest_version: latest_version_$(DEPLOYMENT_TYPE)
